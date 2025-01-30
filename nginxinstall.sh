@@ -12,7 +12,7 @@ echo "y" | sh webmin-setup-repos.sh
 apt install -y webmin --install-recommends
 
 # Clone the repository and move script to home directory
-git clone https://github.com/sprocket78/R-Ste-s-Nginx-Proxy-Installer-v1.0.git /tmp/nginx-proxy-installer
+git clone https://github.com/sprocket78/R-Stes-Nginx-Proxy-Installer-v1.0.git /tmp/nginx-proxy-installer
 cp /tmp/nginx-proxy-installer/nginx.sh /home/
 
 # Convert nginx.sh to Unix format and make it executable
