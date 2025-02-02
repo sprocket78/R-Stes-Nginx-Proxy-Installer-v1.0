@@ -2,7 +2,7 @@
 R Ste's Nginx Proxy Installer v1.0
 ----------------------------------
 
-bash <(curl -s https://raw.githubusercontent.com/sprocket78/R-Stes-Nginx-Proxy-Installer-v1.0/main/nginxinstall.sh)
+curl -s -o /home/nginxinstall.sh https://raw.githubusercontent.com/sprocket78/R-Stes-Nginx-Proxy-Installer-v1.0/main/nginxinstall.sh && chmod +x /home/nginxinstall.sh && /home/nginxinstall.sh
 
 This will download and execute nginxinstall.sh
 
