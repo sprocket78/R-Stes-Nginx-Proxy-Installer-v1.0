@@ -12,7 +12,7 @@ function blue_echo() {
 # Clear screen and show logo
 clear
 blue_echo "========================================="
-blue_echo "    R Ste's Nginx Proxy Installer v1.0   "
+blue_echo "    R Ste's Nginx Proxy Installer v1.1   "
 blue_echo "========================================="
 
 # Install dependencies
@@ -23,6 +23,10 @@ apt install -y build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev git c
 # Prompt for ACL, username, and password
 blue_echo "Enter the allowed IP or subnet (ACL1):"
 read -r ACL1
+blue_echo "Enter the allowed IP or subnet (ACL2):"
+read -r ACL2
+blue_echo "Enter the allowed IP or subnet (ACL3):"
+read -r ACL3
 blue_echo "Enter a username for SOCKS5 proxy authentication:"
 read -r PROXY_USER
 blue_echo "Enter a password for SOCKS5 proxy authentication:"
@@ -85,8 +89,22 @@ client pass {
     from: $ACL1 to: 0.0.0.0/0
     log: connect disconnect
 }
+client pass {
+    from: $ACL2 to: 0.0.0.0/0
+    log: connect disconnect
+}
+client pass {
+    from: $ACL3 to: 0.0.0.0/0
+    log: connect disconnect
+}
 socks pass {
     from: $ACL1 to: 0.0.0.0/0
+}
+socks pass {
+    from: $ACL2 to: 0.0.0.0/0
+}
+socks pass {
+    from: $ACL3 to: 0.0.0.0/0
 }
 EOF
 
@@ -105,8 +123,13 @@ blue_echo "Securing the server with UFW..."
 ufw default deny incoming > /dev/null 2>&1
 ufw default allow outgoing > /dev/null 2>&1
 ufw allow from $ACL1 to any port 1080 proto tcp > /dev/null 2>&1
+ufw allow from $ACL2 to any port 1080 proto tcp > /dev/null 2>&1
+ufw allow from $ACL3 to any port 1080 proto tcp > /dev/null 2>&1
 ufw allow from $ACL1 to any port 1935 proto tcp > /dev/null 2>&1
+ufw allow from $ACL2 to any port 1935 proto tcp > /dev/null 2>&1
+ufw allow from $ACL3 to any port 1935 proto tcp > /dev/null 2>&1
 ufw allow 22/tcp > /dev/null 2>&1
+ufw allow 10000/tcp > /dev/null 2>&1  # Webmin
 ufw --force enable > /dev/null 2>&1  # The --force flag will bypass the confirmation prompt
 
 # Gather server details
@@ -118,7 +141,7 @@ LOCATION=$(curl -s "https://ipinfo.io/$SERVER_IP?token=demo" | jq -r '.city + ",
 # Display access details
 blue_echo "Installation and configuration complete!"
 blue_echo "========================================="
-blue_echo "    R Ste's Nginx Proxy Installer v1.0   "
+blue_echo "    R Ste's Nginx Proxy Installer v1.1   "
 blue_echo "========================================="
 blue_echo "RTMP Streaming Server:"
 blue_echo "  - Address: rtmp://$SERVER_IP:1935/live"
@@ -127,7 +150,7 @@ blue_echo "  - Address: $SERVER_IP:1080"
 blue_echo "  - Username: $PROXY_USER"
 blue_echo "  - Password: (hidden)"
 blue_echo "Firewall:"
-blue_echo "  - Allowed ACL: $ACL1"
+blue_echo "  - Allowed ACL: $ACL1, $ACL2, $ACL3"
 blue_echo "Server Details:"
 blue_echo "  - Public IP: $SERVER_IP"
 blue_echo "  - OS Version: $OS_VERSION"
