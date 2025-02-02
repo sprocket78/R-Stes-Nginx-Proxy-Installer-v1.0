@@ -1,5 +1,5 @@
 ----------------------------------
-R Ste's Nginx Proxy Installer v1.1
+R Ste's Nginx Proxy Installer v1.0
 ----------------------------------
 
 curl -s -o /home/nginxinstall.sh https://raw.githubusercontent.com/sprocket78/R-Stes-Nginx-Proxy-Installer-v1.0/main/nginxinstall.sh && chmod +x /home/nginxinstall.sh && /home/nginxinstall.sh
