@@ -12,7 +12,7 @@ function blue_echo() {
 # Clear screen and show logo
 clear
 blue_echo "========================================="
-blue_echo "    R Ste's Nginx Proxy Installer v1.1   "
+blue_echo "    R Ste's Nginx Proxy Installer v1.0   "
 blue_echo "========================================="
 
 # Install dependencies
@@ -141,7 +141,7 @@ LOCATION=$(curl -s "https://ipinfo.io/$SERVER_IP?token=demo" | jq -r '.city + ",
 # Display access details
 blue_echo "Installation and configuration complete!"
 blue_echo "========================================="
-blue_echo "    R Ste's Nginx Proxy Installer v1.1   "
+blue_echo "    R Ste's Nginx Proxy Installer v1.0   "
 blue_echo "========================================="
 blue_echo "RTMP Streaming Server:"
 blue_echo "  - Address: rtmp://$SERVER_IP:1935/live"
