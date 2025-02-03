@@ -27,6 +27,8 @@ blue_echo "Enter the allowed IP or subnet (ACL2):"
 read -r ACL2
 blue_echo "Enter the allowed IP or subnet (ACL3):"
 read -r ACL3
+blue_echo "Enter the allowed IP or subnet (ACL4):"
+read -r ACL4
 blue_echo "Enter a username for SOCKS5 proxy authentication:"
 read -r PROXY_USER
 blue_echo "Enter a password for SOCKS5 proxy authentication:"
@@ -97,6 +99,10 @@ client pass {
     from: $ACL3 to: 0.0.0.0/0
     log: connect disconnect
 }
+client pass {
+    from: $ACL4 to: 0.0.0.0/0
+    log: connect disconnect
+}
 socks pass {
     from: $ACL1 to: 0.0.0.0/0
 }
@@ -105,6 +111,9 @@ socks pass {
 }
 socks pass {
     from: $ACL3 to: 0.0.0.0/0
+}
+socks pass {
+    from: $ACL4 to: 0.0.0.0/0
 }
 EOF
 
@@ -125,9 +134,11 @@ ufw default allow outgoing > /dev/null 2>&1
 ufw allow from $ACL1 to any port 1080 proto tcp > /dev/null 2>&1
 ufw allow from $ACL2 to any port 1080 proto tcp > /dev/null 2>&1
 ufw allow from $ACL3 to any port 1080 proto tcp > /dev/null 2>&1
+ufw allow from $ACL4 to any port 1080 proto tcp > /dev/null 2>&1
 ufw allow from $ACL1 to any port 1935 proto tcp > /dev/null 2>&1
 ufw allow from $ACL2 to any port 1935 proto tcp > /dev/null 2>&1
 ufw allow from $ACL3 to any port 1935 proto tcp > /dev/null 2>&1
+ufw allow from $ACL4 to any port 1935 proto tcp > /dev/null 2>&1
 ufw allow 22/tcp > /dev/null 2>&1
 ufw allow 10000/tcp > /dev/null 2>&1  # Webmin
 ufw --force enable > /dev/null 2>&1  # The --force flag will bypass the confirmation prompt
@@ -150,7 +161,7 @@ blue_echo "  - Address: $SERVER_IP:1080"
 blue_echo "  - Username: $PROXY_USER"
 blue_echo "  - Password: (hidden)"
 blue_echo "Firewall:"
-blue_echo "  - Allowed ACL: $ACL1, $ACL2, $ACL3"
+blue_echo "  - Allowed ACL: $ACL1, $ACL2, $ACL3, $ACL4"
 blue_echo "Server Details:"
 blue_echo "  - Public IP: $SERVER_IP"
 blue_echo "  - OS Version: $OS_VERSION"
